@@ -1,5 +1,7 @@
 
 import pandas as pd
+import matplotlib.pyplot as plot
+import numpy as np
 
 input_df = pd.read_csv('data/sf_business_dataset.csv')
 input_df.rename(columns={'Neighborhoods - Analysis Boundaries':'neighborhood',
@@ -34,7 +36,11 @@ def high_pockets_active_business(input_df):
     print(sorted_count.shape)
     print(sorted_count.sum())
 
- # high_pockets_active_business(input_df)
+    sorted_count.plot.bar()
+    plot.show()
+
+
+# high_pockets_active_business(input_df)
 
 
 
@@ -54,6 +60,9 @@ def less_popular_industries(input_df):
     print(sorted_count.shape)
     print(sorted_count.sum())
 
+    sorted_count.plot.barh()
+    plot.show()
+
 # less_popular_industries(input_df)
 
 
@@ -65,13 +74,52 @@ def business_started_by_industry_year(input_df):
     industry_year_df['start_year'] = industry_year_df['business_start_date'].str[-4:]
     industry_year_df = industry_year_df[['naics_code', 'naics_description', 'start_year']]
 
+    # print(len(industry_year_df))
+    industry_year_df['start_year'] = pd.to_numeric(industry_year_df.start_year, errors='coerce')
+    industry_year_df = industry_year_df.where(industry_year_df['start_year'] <= 2018).dropna()
+
+    # print(len(industry_year_df))
+        # remove and check for years > 2018
+
     industry_year_df = industry_year_df.dropna(subset=['naics_description', 'start_year'])
 
     industry_year_df['counter'] = 1
     industry_year_counted_df = industry_year_df.groupby(['naics_code', 'naics_description', 'start_year'])['counter'].count()
 
-    print(industry_year_counted_df.shape)
+    # print(industry_year_counted_df.shape)
+    # print(industry_year_counted_df.head())
 
-    print(industry_year_counted_df.head(n=30))
+    # print(industry_year_df.sort_values(by=['start_year'], axis=0, ascending=False))
+        # there are records > 2018
+    max_year = industry_year_df[['start_year']].max(axis=0)
+    min_year = industry_year_df[['start_year']].min(axis=0)
+    distinct_years = [i for i in range(min_year,max_year + 1)]
 
-# business_started_by_industry_year(input_df)
+    distinct_naics = industry_year_df[['naics_code', 'naics_description']].drop_duplicates().reset_index(drop=True)
+    distinct_naics = distinct_naics.values.tolist()
+
+    complete_industry_years = [[naics_info[0], naics_info[1], year, 0] for naics_info in distinct_naics for year in distinct_years]
+
+    new_columns = ['naics_code2', 'naics_description2', 'start_year2','counter2']
+    zeros_df = pd.DataFrame(complete_industry_years, columns=new_columns)
+    print(zeros_df)
+    print(industry_year_counted_df)
+
+
+
+
+
+
+    year = [1960, 1970, 1980, 1990, 2000, 2010]
+    pop_pakistan = [44.91, 58.09, 78.07, 107.7, 138.5, 170.6]
+    pop_india = [449.48, 553.57, 696.783, 870.133, 1000.4, 1309.1]
+    plot.plot(year, pop_pakistan, color='g')
+    plot.plot(year, pop_india, color='orange')
+    plot.xlabel('Countries')
+    plot.ylabel('Population in million')
+    plot.title('Pakistan India Population till 2010')
+    # plot.show()
+
+
+
+business_started_by_industry_year(input_df)
