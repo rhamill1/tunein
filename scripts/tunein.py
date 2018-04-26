@@ -85,6 +85,7 @@ def business_started_by_industry_year(input_df):
 
     industry_year_df['counter'] = 1
     industry_year_counted_df = industry_year_df.groupby(['naics_code', 'naics_description', 'start_year'])['counter'].count()
+    industry_year_counted_df = industry_year_counted_df.to_frame()
 
     # print(industry_year_counted_df.shape)
     # print(industry_year_counted_df.head())
@@ -100,12 +101,19 @@ def business_started_by_industry_year(input_df):
 
     complete_industry_years = [[naics_info[0], naics_info[1], year, 0] for naics_info in distinct_naics for year in distinct_years]
 
-    new_columns = ['naics_code2', 'naics_description2', 'start_year2','counter2']
+
+    new_columns = ['naics_code', 'naics_description', 'start_year','counter2']
     zeros_df = pd.DataFrame(complete_industry_years, columns=new_columns)
-    print(zeros_df)
-    print(industry_year_counted_df)
+    zeros_df = zeros_df.set_index(['naics_code', 'naics_description', 'start_year'])
 
+    stage_df = pd.merge(zeros_df, industry_year_counted_df, how='left', left_index=True, right_index=True)
+    stage_df['new_companies'] = stage_df.counter.combine_first(stage_df.counter2)
+    stage_df = stage_df.reset_index(['naics_code', 'naics_description','start_year'])
+    pivoted_df = stage_df.pivot_table(values='new_companies', index=['naics_code', 'naics_description'], columns='start_year')
 
+    print(pivoted_df)
+    print(stage_df)
+    print(stage_df.shape)
 
 
 
