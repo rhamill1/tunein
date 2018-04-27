@@ -20,7 +20,6 @@ $ venv/bin/python scripts/tunein.py
 - **Process:**  I looked at using 'Business Corridor' and 'Business Location' but those fields were null for most records and the 'Neighborhoods' field offered the most complete and intuitive grouping. I removed inactive businesses (via. ‘business end date’) and records without neighborhood data. Then I counted businesses by neighborhood.
 - **Results:** passed the sniff test of The Financial District, Mission and SOMA being at the top of the list.
 
-  It would also be interesting to plot the neighborhoods on a map and show density by geography. [This](http://gradientdissent.com/blog/analyzing-2-months-of-real-crime-data-from-san-francisco-and-seattle.html) is an interesting looking blog post that shows how to plot neighborhoods.
 
 
 
@@ -28,7 +27,6 @@ $ venv/bin/python scripts/tunein.py
 - **Process:** First I dropped all columns except the NAICS columns.  Then similarly to last time I grouped and counted records.
 - **Results:** The sorted data from this also passes the sniff test, but more thought is needed to make good recommendations.
 - **Recommendation:** It's short sighted to just draw a line and say any industry type with business counts below a certain threshold needs assistance. The example that comes to mind is:  although there aren’t very many utilities, how many utility companies does San Francisco need? Maybe as time goes on more utilities are needed but is it necessary for the city to stimulate that growth or can the market organically control this? Insurance looks like it could be similar to Utilities. Manufacturing looks like a good candidate for assistance and depending what 'Certain Services' include, they might also be candidates.
-- **Moving forward:**  Time permitting, I’d look at start and end dates of businesses to see if less popular industries are less popular because they’re no longer needed.  For example, travel agencies aren’t as needed anymore. It’d be great to get NAICS sub-description data to understand what specific industries might be trending or declining.
 
 ##### Question 3.
 - **Process - Data:**
@@ -48,9 +46,14 @@ $ venv/bin/python scripts/tunein.py
 
 - **Note:** One decision I made that I’d ask for clarification on in a business setting, was to not remove duplicate businesses based on multiple locations. I was interested in seeing trends and I left them in because I wanted to highlight the magnitude of specific categories.  Ex. is adding one McDonalds a trend or is adding 50 McDonalds a trend?
 
+
 ##### Question 4.
 - **Question 1:**  It’d be great to discern the neighborhoods from the records where that’s missing, either from address, or a third party.
+
+  It would also be interesting to plot the neighborhoods on a map and show density by geography. [This](http://gradientdissent.com/blog/analyzing-2-months-of-real-crime-data-from-san-francisco-and-seattle.html) is an interesting looking blog post that shows how to plot neighborhoods.
 
 - **Question 2:**  Time permitting, I’d look at start and end dates of businesses to see if less popular industries are less popular because they’re no longer needed.  For example, travel agencies aren’t as needed anymore. It’d be great to get NAICS sub-description data to understand what specific industries might be trending or declining.
 
 - **Question 3:** If I had more time, I’d look deeper into the Warehouse and Transportation category to see if that huge recent spike is based on people using storage/warehousing due to an expensive housing climate, or more likely, Uber and Lyft drivers are being classified as unique individual businesses. The spike in Accommodations starting at the beginning of 2014 also supports this ‘rental economy’ hypothesis.
+
+  I'd also refactor this function into smaller functions that state what's happening at each block of code.
