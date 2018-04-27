@@ -26,20 +26,21 @@ def explore_data(data_frame):
 def high_pockets_active_business(input_df):
     active_businesses_df = input_df[input_df['Business End Date'].isnull()]
     active_businesses_df = active_businesses_df.dropna(subset=['neighborhood'])
-    print(active_businesses_df.shape)
+    # print(active_businesses_df.shape)
 
     counter = active_businesses_df.groupby('neighborhood').neighborhood.count()
     sorted_count = counter.sort_values(ascending=False)
     print(sorted_count)
 
     # sanity check that counts make sense
-    print(sorted_count.shape)
-    print(sorted_count.sum())
+    # print(sorted_count.shape)
+    # print(sorted_count.sum())
 
     sorted_count.plot.bar()
+    plot.legend(loc=2, prop={'size': 6})
     plot.show()
 
-# high_pockets_active_business(input_df)
+high_pockets_active_business(input_df)
 
 
 
@@ -48,7 +49,7 @@ def high_pockets_active_business(input_df):
 def less_popular_industries(input_df):
     naics_df = input_df[['naics_code', 'naics_description']]
     naics_df = naics_df.dropna(subset=['naics_description'])
-    print(naics_df.shape)
+    # print(naics_df.shape)
 
     naics_df['counter'] = 1
     naics_counted_df = naics_df.groupby(['naics_code', 'naics_description'])['counter'].count()
@@ -56,8 +57,8 @@ def less_popular_industries(input_df):
     print(sorted_count)
 
     # sanity check that counts make sense
-    print(sorted_count.shape)
-    print(sorted_count.sum())
+    # print(sorted_count.shape)
+    # print(sorted_count.sum())
 
     sorted_count.plot.barh()
     plot.show()
@@ -164,4 +165,4 @@ def business_started_by_industry_year(input_df):
     plot.legend(legend_labels, loc='upper left')
     plot.show()
 
-business_started_by_industry_year(input_df)
+# business_started_by_industry_year(input_df)
