@@ -110,23 +110,65 @@ def business_started_by_industry_year(input_df):
     stage_df['new_companies'] = stage_df.counter.combine_first(stage_df.counter2)
     stage_df = stage_df.reset_index(['naics_code', 'naics_description','start_year'])
     pivoted_df = stage_df.pivot_table(values='new_companies', index=['naics_code', 'naics_description'], columns='start_year')
+    pivoted_df = pivoted_df.reset_index()
+    pivoted_list = pivoted_df.values.tolist()
 
-    print(pivoted_df)
-    print(stage_df)
-    print(stage_df.shape)
+    # print(pivoted_df)
+    # print(stage_df)
+    # print(stage_df.shape)
 
+    distinct_years = distinct_years[118:]
 
+    # list values 100 = 1946
 
+    Utilities = pivoted_list[0][120:]
+    Construction = pivoted_list[1][120:]
+    Manufacturing = pivoted_list[2][120:]
+    Wholesale_Trade = pivoted_list[3][120:]
+    Retail_Trade = pivoted_list[4][120:]
+    # Transportation_and_Warehousing = pivoted_list[5][120:]
+    Information = pivoted_list[6][120:]
+    Financial_Services = pivoted_list[7][120:]
+    Insurance = pivoted_list[8][120:]
+    Real_Estate_and_Rental_and_Leasing_Services = pivoted_list[9][120:]
+    Professional_Scientific_and_Technical_Services = pivoted_list[10][120:]
+    Administrative_and_Support_Services = pivoted_list[11][120:]
+    Private_Education_and_Health_Services = pivoted_list[12][120:]
+    Arts_Entertainment_and_Recreation = pivoted_list[13][120:]
+    Accommodations = pivoted_list[14][120:]
+    Food_Services = pivoted_list[15][120:]
+    Certain_Services = pivoted_list[16][120:]
+    Certain_Services_Two = pivoted_list[17][120:]
 
-    year = [1960, 1970, 1980, 1990, 2000, 2010]
-    pop_pakistan = [44.91, 58.09, 78.07, 107.7, 138.5, 170.6]
-    pop_india = [449.48, 553.57, 696.783, 870.133, 1000.4, 1309.1]
-    plot.plot(year, pop_pakistan, color='g')
-    plot.plot(year, pop_india, color='orange')
-    plot.xlabel('Countries')
-    plot.ylabel('Population in million')
+    legend_labels = ('Utilities', 'Construction', 'Manufacturing', 'Wholesale_Trade', 'Retail_Trade', # 'Transportation_and_Warehousing',
+        'Information', 'Financial_Services', 'Insurance',
+        'Real_Estate_and_Rental_and_Leasing_Services', 'Professional_Scientific_and_Technical_Services', 'Administrative_and_Support_Services',
+        'Private_Education_and_Health_Services', 'Arts_Entertainment_and_Recreation', 'Accommodations', 'Food_Services', 'Certain_Services', 'Certain_Services_Two')
+
+    plot.plot(distinct_years, Utilities)
+    plot.plot(distinct_years, Construction)
+    plot.plot(distinct_years, Manufacturing)
+    plot.plot(distinct_years, Wholesale_Trade)
+    plot.plot(distinct_years, Retail_Trade)
+    # plot.plot(distinct_years, Transportation_and_Warehousing)
+    plot.plot(distinct_years, Information)
+    plot.plot(distinct_years, Financial_Services)
+    plot.plot(distinct_years, Insurance)
+    plot.plot(distinct_years, Real_Estate_and_Rental_and_Leasing_Services)
+    plot.plot(distinct_years, Professional_Scientific_and_Technical_Services)
+    plot.plot(distinct_years, Administrative_and_Support_Services)
+    plot.plot(distinct_years, Private_Education_and_Health_Services)
+    plot.plot(distinct_years, Arts_Entertainment_and_Recreation)
+    plot.plot(distinct_years, Accommodations)
+    plot.plot(distinct_years, Food_Services)
+    plot.plot(distinct_years, Certain_Services)
+    plot.plot(distinct_years, Certain_Services_Two)
+    plot.xlabel('Years')
+    plot.ylabel('Companies/Franchises Founded by Year')
     plot.title('Pakistan India Population till 2010')
-    # plot.show()
+    plot.legend(legend_labels, loc='upper left')
+    plot.show()
+
 
 
 
