@@ -1,7 +1,7 @@
 
 import pandas as pd
 import matplotlib.pyplot as plot
-import numpy as np
+
 
 input_df = pd.read_csv('data/sf_business_dataset.csv')
 input_df.rename(columns={'Neighborhoods - Analysis Boundaries':'neighborhood',
@@ -38,7 +38,6 @@ def high_pockets_active_business(input_df):
 
     sorted_count.plot.bar()
     plot.show()
-
 
 # high_pockets_active_business(input_df)
 
@@ -113,14 +112,10 @@ def business_started_by_industry_year(input_df):
     pivoted_df = pivoted_df.reset_index()
     pivoted_list = pivoted_df.values.tolist()
 
-    # print(pivoted_df)
-    # print(stage_df)
-    # print(stage_df.shape)
 
     distinct_years = distinct_years[118:]
 
     # list values 100 = 1946
-
     Utilities = pivoted_list[0][120:]
     Construction = pivoted_list[1][120:]
     Manufacturing = pivoted_list[2][120:]
@@ -168,8 +163,5 @@ def business_started_by_industry_year(input_df):
     plot.title('Pakistan India Population till 2010')
     plot.legend(legend_labels, loc='upper left')
     plot.show()
-
-
-
 
 business_started_by_industry_year(input_df)
